@@ -9,7 +9,7 @@
 ###trash目录define
 realrm="/bin/rm"
 trash_dir=~/.rmtrash/
-trash_log=~/.rmtrash.log
+trash_log=/mnt/hdd2/yanan/.rmtrash.log
 ###判断trash目录是否存在，不存在则创建
 if [ ! -d $trash_dir ] ;then
 	mkdir -v $trash_dir > /dev/null
@@ -81,6 +81,13 @@ rm_mv () {
 		#if [[ "$file_fullpath" == "/*" ]];then
 		#	echo action deny!
 		#else
+
+		####判断如果是要删除文件是根目录，则直接提示并拒绝
+		if [[ "$file_name" == "/" ]];then
+		    echo $now `date +%s` `whoami` rm拒绝执行删除根目录操作，否则系统就挂了，你就悲剧了，请检查... >> $trash_log && \
+		    echo -e "\033[31m\033[05m rm拒绝执行删除根目录操作，否则系统就挂了，你就悲剧了，请检查...\033[0m"
+        fi
+
 		####判断即将删除的文件在trash目录里是否已存在
 		if [[ `ls $trash_dir|grep ^${file_name}$` ]];then	
 			##已存在，文件名重复，需要rename，想原始名的基础上加后缀
@@ -91,16 +98,11 @@ rm_mv () {
 			trash_dest_path=$trash_dir$file_name
 		fi
 
-		####判断如果是要删除文件是根目录，则直接提示并拒绝
-		if [[ "$file_name" == "/" ]];then
-			echo rm拒绝执行删除根目录操作，否则系统就挂了，你就悲剧了，请检查...
-		else
-			###mv成功记录log,记录删除时的文件、目录的路径等信息到log，以便恢复数据
-			mv $file_fullpath $trash_dest_path && \
-			echo $now `date +%s` `whoami` moved from $file_fullpath to $trash_dest_path >> $trash_log #&& \
-			#echo -e "\033[31m\033[05m $file is deleted from $file_fullpath\033[0m" 
-			#cat $trash_log
-		fi
+		###mv成功记录log,记录删除时的文件、目录的路径等信息到log，以便恢复数据
+		mv $file_fullpath $trash_dest_path && \
+		echo $now `date +%s` `whoami` moved from $file_fullpath to $trash_dest_path >> $trash_log #&& \
+		#echo -e "\033[31m\033[05m $file is deleted from $file_fullpath\033[0m" 
+		#cat $trash_log
 
 		#fi
 	###done
