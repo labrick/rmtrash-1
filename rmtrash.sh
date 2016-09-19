@@ -8,7 +8,7 @@
 
 ###trash目录define
 realrm="/bin/rm"
-trash_dir=~/.rmtrash/
+trash_dir=/mnt/hdd2/yanan/.rmtrash/
 trash_log=/mnt/hdd2/yanan/.rmtrash.log
 ###判断trash目录是否存在，不存在则创建
 if [ ! -d $trash_dir ] ;then
@@ -92,7 +92,7 @@ rm_mv () {
 		if [[ `ls $trash_dir|grep ^${file_name}$` ]];then	
 			##已存在，文件名重复，需要rename，想原始名的基础上加后缀
 			trash_dest_path=$trash_dir$file_name$dupfix
-			echo trash目录里已存在$file_name,需要rename $file_name$dupfix
+			#echo trash目录里已存在$file_name,需要rename $file_name$dupfix
 		else
 			##不重名，直接按原始文件名保存
 			trash_dest_path=$trash_dir$file_name
