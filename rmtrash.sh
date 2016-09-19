@@ -2,8 +2,8 @@
 ### rmtrash,rm command line recycle bin for linux and mac osx.
 ### rmtrash 是linux和mac下命令行版本rm的回收站，安装后对用户透明，符合正常使用rm的习惯(支持rm -fr file哦)，有了他再也不怕rm时候手颤抖了。
 ### rmtrash stands for "rm trash" which acts just like the system built-in rm command,and just moves the file to the trash for recovery when needed.
-### https://github.com/LaiJingli/rmtrash
-### laijingli2006@gmail.com
+### https://github.com/labrick/rmtrash-1
+### yananback@gmail.com
 ### 2015-3-9
 
 ###trash目录define
@@ -12,7 +12,7 @@ trash_dir=~/.rmtrash/
 trash_log=~/.rmtrash.log
 ###判断trash目录是否存在，不存在则创建
 if [ ! -d $trash_dir ] ;then
-	mkdir -v $trash_dir
+	mkdir -v $trash_dir > /dev/null
 fi
 
 ###动态修改用户shell中的alias配置
@@ -26,7 +26,7 @@ return_value=$?
 #echo alias_rm: $alias_rm
 ###如果不存在rm alias，则生成
 if [[ $return_value -ne 0 ]] ;then
-	echo first time to run rmtrash
+	#echo first time to run rmtrash
 	echo "alias rm=/bin/rmtrash.sh" >>$alias_file && source $alias_file
 ###如果存在rm alias，且不是指向rmtrash的，则注释掉，区分linux 和mac
 elif [[ "$alias_rm" != "alias rm=/bin/rmtrash.sh" ]];then
