@@ -66,7 +66,7 @@ EOF
 
 ###rm mv function
 rm_mv () {
-	echo ----------------------------
+	#echo ----------------------------
 	now=`date +%Y%m%d_%H:%M:%S`
 	dupfix=.`date +%Y%m%d%H%M%S`
 	###将用户输入的文件循环mv到trash中
@@ -97,8 +97,8 @@ rm_mv () {
 		else
 			###mv成功记录log,记录删除时的文件、目录的路径等信息到log，以便恢复数据
 			mv $file_fullpath $trash_dest_path && \
-			echo $now `date +%s` `whoami` moved from $file_fullpath to $trash_dest_path >> $trash_log && \
-			echo -e "\033[31m\033[05m $file is deleted from $file_fullpath\033[0m" 
+			echo $now `date +%s` `whoami` moved from $file_fullpath to $trash_dest_path >> $trash_log #&& \
+			#echo -e "\033[31m\033[05m $file is deleted from $file_fullpath\033[0m" 
 			#cat $trash_log
 		fi
 
@@ -188,8 +188,8 @@ rm_delete () {
 				elif [[ $os_type == Linux ]];then
 					sed -i.bak "/\/$file$/d" $trash_log		
 					echo os_type=Linux
-				fi && \
-					echo -e  "\033[32m\033[05m$file  is deleted from trash ${trash_dir}$file \033[0m"
+				fi #&& \
+					#echo -e  "\033[32m\033[05m$file  is deleted from trash ${trash_dir}$file \033[0m"
 			else
 				echo $file is not exist in $trash_dir
 			fi
@@ -236,7 +236,7 @@ shift $((OPTIND-1))
 ###将文件名的参数依次传递给rm_mv函数
 while [ $# -ne 0 ];do
 	file=$1
-	echo file=$file 
+	#echo file=$file 
 	rm_mv
 	shift
 done
