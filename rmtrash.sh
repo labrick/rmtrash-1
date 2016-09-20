@@ -78,14 +78,15 @@ rm_mv () {
 		file_fullpath=$file_dir/$file_name
 		###判断要删除的文件或者目录大小是否超过2G
 		#echo file_fullpath: $file_fullpath
+        #echo $file_dir $file_name $file_fullpath
 		#if [[ "$file_fullpath" == "/*" ]];then
 		#	echo action deny!
-		#else
+        #fi
 
 		####判断如果是要删除文件是根目录，则直接提示并拒绝
-		if [[ "$file_name" == "/" ]];then
-		    echo $now `date +%s` `whoami` rm拒绝执行删除根目录操作，否则系统就挂了，你就悲剧了，请检查... >> $trash_log && \
-		    echo -e "\033[31m\033[05m rm拒绝执行删除根目录操作，否则系统就挂了，你就悲剧了，请检查...\033[0m"
+		if [[ "$file_dir" == "/" ]];then
+		    echo $now `date +%s` `whoami` please use /bin/rm to delete file... >> $trash_log && \
+		    echo -e "\033[47;31m please use \"sudo /bin/rm file\" to delete file in root dir\033[0m"
         fi
 
 		####判断即将删除的文件在trash目录里是否已存在
