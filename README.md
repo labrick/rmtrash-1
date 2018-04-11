@@ -52,5 +52,8 @@ alias |grep rm
 a、# rm -e 清空回收站  
 b、# /bin/rm file 直接删除文件而不经过回收站  
 
-## 适用系统linux、mac osx
+## 适用系统
+
+1. linux
+2. mac osx
 
