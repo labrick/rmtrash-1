@@ -93,15 +93,17 @@ rm_mv () {
 		if [[ `ls $trash_dir|grep ^${file_name}$` ]];then	
 			##已存在，文件名重复，需要rename，想原始名的基础上加后缀
 			trash_dest_path=$trash_dir$file_name$dupfix
+            display_path=rmtrash/$file_name$dupfix
 			#echo trash目录里已存在$file_name,需要rename $file_name$dupfix
 		else
 			##不重名，直接按原始文件名保存
 			trash_dest_path=$trash_dir$file_name
+            display_path=rmtrash/$file_name
 		fi
 
 		###mv成功记录log,记录删除时的文件、目录的路径等信息到log，以便恢复数据
 		mv $file_fullpath $trash_dest_path && \
-		echo $now `date +%s` `whoami` moved from $file_fullpath to $trash_dest_path >> $trash_log #&& \
+		echo $now `date +%s` `whoami` moved from $file_fullpath to $display_path >> $trash_log #&& \
 		#echo -e "\033[31m\033[05m $file is deleted from $file_fullpath\033[0m" 
 		#cat $trash_log
 
