@@ -8,8 +8,9 @@
 
 ###trash目录define
 realrm="/bin/rm"
-trash_dir=/mnt/hdd2/yanan/.rmtrash/
-trash_log=/mnt/hdd2/yanan/.rmtrash.log
+PWD=`pwd`
+trash_dir=~/.rmtrash/
+trash_log=~/.rmtrash.log
 ###判断trash目录是否存在，不存在则创建
 if [ ! -d $trash_dir ] ;then
 	mkdir -v $trash_dir > /dev/null
@@ -27,17 +28,17 @@ return_value=$?
 ###如果不存在rm alias，则生成
 if [[ $return_value -ne 0 ]] ;then
 	#echo first time to run rmtrash
-	echo "alias rm=/bin/rmtrash.sh" >>$alias_file && source $alias_file
+	echo "alias rm=$PWD/rmtrash.sh" >>$alias_file && source $alias_file
 ###如果存在rm alias，且不是指向rmtrash的，则注释掉，区分linux 和mac
-elif [[ "$alias_rm" != "alias rm=/bin/rmtrash.sh" ]];then
+elif [[ "$alias_rm" != "alias rm=$PWD/rmtrash.sh" ]];then
 	echo already has alias rm,and must commit out
 	if [[ $os_type == Darwin ]];then
 		sed -i .bak 's/^alias\ rm=/#alias\ rm=/g' $alias_file && \
-		echo "alias rm=/bin/rmtrash.sh" >>$alias_file && \
+		echo "alias rm=$PWD/rmtrash.sh" >>$alias_file && \
 		source $alias_file
 	elif [[ $os_type == Linux ]];then
 		sed -i.bak 's/^alias\ rm=/#alias\ rm=/g' $alias_file && \
-		echo "alias rm=/bin/rmtrash.sh" >>$alias_file && \
+		echo "alias rm=$trash_dir/rmtrash.sh" >>$alias_file && \
 		source $alias_file
 	fi
 fi
